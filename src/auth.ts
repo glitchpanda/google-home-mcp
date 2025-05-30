@@ -23,8 +23,22 @@ export class GoogleAuth {
 
   async initialize(): Promise<void> {
     try {
-      const credentialsContent = await fs.readFile(this.credentialsPath, 'utf-8');
-      const credentials = JSON.parse(credentialsContent);
+      // Check if credentials are provided via environment variable first
+      const envCredentials = process.env.GOOGLE_CREDENTIALS;
+      let credentials;
+      
+      if (envCredentials) {
+        credentials = JSON.parse(envCredentials);
+      } else {
+        // Try to read from file
+        try {
+          const credentialsContent = await fs.readFile(this.credentialsPath, 'utf-8');
+          credentials = JSON.parse(credentialsContent);
+        } catch (error) {
+          console.log('No credentials file found. Please set GOOGLE_CREDENTIALS environment variable or provide credentials.json');
+          return;
+        }
+      }
       
       const { client_id, client_secret, redirect_uris } = credentials.installed || credentials.web;
       
@@ -42,7 +56,7 @@ export class GoogleAuth {
         console.log('No token found, authorization required');
       }
     } catch (error) {
-      throw new Error(`Failed to initialize Google Auth: ${error}`);
+      console.error(`Failed to initialize Google Auth: ${error}`);
     }
   }
 
