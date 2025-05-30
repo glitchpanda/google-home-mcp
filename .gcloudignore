@@ -1,0 +1,17 @@
+# Ignore files for Google Cloud uploads
+.git/
+.gitignore
+node_modules/
+src/
+*.ts
+tsconfig.json
+.env
+.env.example
+token.json
+*.log
+.DS_Store
+README.md
+Dockerfile
+docker-compose.yml
+*.service
+ecosystem.config.js

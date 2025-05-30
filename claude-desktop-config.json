@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "google-home-gcp": {
+      "command": "gcloud",
+      "args": [
+        "compute",
+        "ssh",
+        "--zone=us-central1-a",
+        "--command=cd /home/mcpuser/google-home-mcp && node dist/index.js",
+        "google-home-mcp-server"
+      ]
+    }
+  }
+}
